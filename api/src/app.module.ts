@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { SequelizeModule } from '@nestjs/sequelize'
-import { getSequelizeConfig } from './config/sequelize.config'
-import { DatabaseConnectionService } from './config/database-connection.service'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { getTypeOrmConfig } from './config/typeorm.config'
+import { EmployeeModule } from './employee/employee.module';
+import { PositionModule } from './position/position.module';
+import { PositionModule } from './position/position.module';
 
 @Module({
 	imports: [
@@ -12,14 +14,16 @@ import { DatabaseConnectionService } from './config/database-connection.service'
 			isGlobal: true,
 			envFilePath: '../.env',
 		}),
-		SequelizeModule.forRootAsync({
+		TypeOrmModule.forRootAsync({
 			imports: [ConfigModule],
-			useFactory: getSequelizeConfig,
+			useFactory: getTypeOrmConfig,
 			inject: [ConfigService],
 		}),
+		EmployeeModule,
+		PositionModule
 	],
 	controllers: [AppController],
-	providers: [AppService, DatabaseConnectionService],
+	providers: [AppService],
 })
 export class AppModule {
 }
