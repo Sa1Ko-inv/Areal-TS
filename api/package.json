@@ -18,11 +18,9 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "ts-node ./node_modules/typeorm/cli -d ./data-source.ts",
-    "migrate:run": "npm run typeorm migration:run",
-    "migrate:revert": "npm run typeorm migration:revert",
-    "migrate:generate": "npm run typeorm migration:generate ./migrations/migrations"
-
+    "migrate:up": "dotenv -e ../.env -- node-pg-migrate up",
+    "migrate:down": "dotenv -e .env -- node-pg-migrate down",
+    "migrate:create": "dotenv -e .env -- node-pg-migrate create"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -30,15 +28,14 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
-    "@nestjs/sequelize": "^11.0.0",
-    "@nestjs/typeorm": "^11.0.0",
     "date-fns": "^4.1.0",
+    "joi": "^17.13.3",
     "multer": "^1.4.5-lts.2",
+    "node-pg-migrate": "^8.0.2",
     "pg": "^8.15.6",
     "pg-hstore": "^2.3.4",
     "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1",
-    "typeorm": "^0.3.24"
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -52,8 +49,9 @@
     "@types/jest": "^29.5.14",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.10.7",
-    "@types/sequelize": "^4.28.20",
+    "@types/pg": "^8.15.4",
     "@types/supertest": "^6.0.2",
+    "dotenv-cli": "^8.0.0",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",

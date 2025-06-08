@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common'
 import { AppController } from './app.controller'
 import { AppService } from './app.service'
-import { ConfigModule, ConfigService } from '@nestjs/config'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { getTypeOrmConfig } from './config/typeorm.config'
+import { ConfigModule } from '@nestjs/config'
+import { DatabaseService } from './config/database.service'
 import { EmployeeModule } from './employee/employee.module';
+import { DatabaseModule } from './config/database.module'
 
 @Module({
 	imports: [
@@ -12,11 +12,7 @@ import { EmployeeModule } from './employee/employee.module';
 			isGlobal: true,
 			envFilePath: '../.env',
 		}),
-		TypeOrmModule.forRootAsync({
-			imports: [ConfigModule],
-			useFactory: getTypeOrmConfig,
-			inject: [ConfigService],
-		}),
+		DatabaseModule, // глобальный доступ к БД
 		EmployeeModule,
 	],
 	controllers: [AppController],
