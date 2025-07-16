@@ -8,7 +8,7 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "dev": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -17,10 +17,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "migrate:up": "dotenv -e ../.env -- node-pg-migrate up",
-    "migrate:down": "dotenv -e .env -- node-pg-migrate down",
-    "migrate:create": "dotenv -e .env -- node-pg-migrate create"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -28,12 +25,13 @@
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
     "@nestjs/platform-express": "^11.0.1",
+    "@prisma/client": "^6.12.0",
     "date-fns": "^4.1.0",
     "joi": "^17.13.3",
     "multer": "^1.4.5-lts.2",
-    "node-pg-migrate": "^8.0.2",
     "pg": "^8.15.6",
     "pg-hstore": "^2.3.4",
+    "prisma": "^6.12.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
