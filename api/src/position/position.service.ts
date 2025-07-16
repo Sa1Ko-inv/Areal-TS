@@ -1,8 +1,10 @@
-import { Injectable } from '@nestjs/common'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { CreatePositionDto } from './dto/create-position.dto'
 import { UpdatePositionDto } from './dto/update-position.dto'
 import { PrismaService } from '../prisma/prisma.service'
 import { Position } from '@prisma/client'
+import { NotFoundError } from 'rxjs'
+
 // 3:57:18
 @Injectable()
 export class PositionService {
@@ -31,19 +33,49 @@ export class PositionService {
 			select: {
 				id: true,
 				name: true,
-			}
+			},
 		})
 	}
 
-	findOne(id: number) {
-		return `This action returns a #${id} position`
+	async findOne(id: string) {
+		const position = await this.prismaService.position.findUnique({
+			where: {
+				id,
+			},
+		})
+
+		if (!position) {
+			throw new NotFoundException('Должность не найдена')
+		}
+
+		return position
 	}
 
-	update(id: number, updatePositionDto: UpdatePositionDto) {
-		return `This action updates a #${id} position`
+	async update(id: string, dto: UpdatePositionDto) {
+		const position = await this.findOne(id)
+
+		await this.prismaService.position.update({
+			where: {
+				id: position.id,
+			},
+			data: {
+				name: dto.name,
+			},
+		})
+		return this.findOne(id)
 	}
 
-	remove(id: number) {
-		return `This action removes a #${id} position`
+	async remove(id: string) {
+		const position = await this.findOne(id)
+
+		await this.prismaService.position.delete({
+			where: {
+				id: position.id,
+			},
+		})
+
+		return {
+			message: 'Должность успешно удалена с id: ' + position.id,
+		}
 	}
 }

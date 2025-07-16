@@ -36,17 +36,42 @@ let PositionService = class PositionService {
             select: {
                 id: true,
                 name: true,
-            }
+            },
         });
     }
-    findOne(id) {
-        return `This action returns a #${id} position`;
+    async findOne(id) {
+        const position = await this.prismaService.position.findUnique({
+            where: {
+                id,
+            },
+        });
+        if (!position) {
+            throw new common_1.NotFoundException('Должность не найдена');
+        }
+        return position;
     }
-    update(id, updatePositionDto) {
-        return `This action updates a #${id} position`;
+    async update(id, dto) {
+        const position = await this.findOne(id);
+        await this.prismaService.position.update({
+            where: {
+                id: position.id,
+            },
+            data: {
+                name: dto.name,
+            },
+        });
+        return this.findOne(id);
     }
-    remove(id) {
-        return `This action removes a #${id} position`;
+    async remove(id) {
+        const position = await this.findOne(id);
+        await this.prismaService.position.delete({
+            where: {
+                id: position.id,
+            },
+        });
+        return {
+            message: 'Должность успешно удалена с id: ' + position.id,
+        };
     }
 };
 exports.PositionService = PositionService;

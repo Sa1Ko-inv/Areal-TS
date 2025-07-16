@@ -5,17 +5,31 @@ export declare class PositionController {
     private readonly positionService;
     constructor(positionService: PositionService);
     create(dto: CreatePositionDto): Promise<{
-        id: string;
         name: string;
+        id: string;
         createdAt: Date;
         updatedAt: Date;
         deletedAt: Date | null;
     }>;
     findAll(): Promise<{
-        id: string;
         name: string;
+        id: string;
     }[]>;
-    findOne(id: string): string;
-    update(id: string, updatePositionDto: UpdatePositionDto): string;
-    remove(id: string): string;
+    findOne(id: string): Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
+    update(id: string, dto: UpdatePositionDto): Promise<{
+        name: string;
+        id: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
+    remove(id: string): Promise<{
+        message: string;
+    }>;
 }

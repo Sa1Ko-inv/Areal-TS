@@ -29,13 +29,13 @@ let PositionController = class PositionController {
         return this.positionService.findAll();
     }
     findOne(id) {
-        return this.positionService.findOne(+id);
+        return this.positionService.findOne(id);
     }
-    update(id, updatePositionDto) {
-        return this.positionService.update(+id, updatePositionDto);
+    update(id, dto) {
+        return this.positionService.update(id, dto);
     }
     remove(id) {
-        return this.positionService.remove(+id);
+        return this.positionService.remove(id);
     }
 };
 exports.PositionController = PositionController;

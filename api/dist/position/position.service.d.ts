@@ -10,7 +10,21 @@ export declare class PositionService {
         id: string;
         name: string;
     }[]>;
-    findOne(id: number): string;
-    update(id: number, updatePositionDto: UpdatePositionDto): string;
-    remove(id: number): string;
+    findOne(id: string): Promise<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
+    update(id: string, dto: UpdatePositionDto): Promise<{
+        id: string;
+        name: string;
+        createdAt: Date;
+        updatedAt: Date;
+        deletedAt: Date | null;
+    }>;
+    remove(id: string): Promise<{
+        message: string;
+    }>;
 }
